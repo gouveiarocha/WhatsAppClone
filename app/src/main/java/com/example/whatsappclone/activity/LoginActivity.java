@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,6 +35,17 @@ public class LoginActivity extends AppCompatActivity {
 
         editEmail = findViewById(R.id.login_etxt_email);
         editSenha = findViewById(R.id.login_etxt_senha);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Verificar e manter o login.
+        FirebaseUser usuarioAtual = auth.getCurrentUser();
+        if (usuarioAtual != null){
+            abrirPrincipalActivity();
+        }
 
     }
 
