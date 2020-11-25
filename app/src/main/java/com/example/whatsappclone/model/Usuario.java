@@ -1,8 +1,12 @@
 package com.example.whatsappclone.model;
 
+import com.example.whatsappclone.helper.Base64Custom;
+import com.example.whatsappclone.helper.FirebaseUtils;
+import com.google.firebase.database.Exclude;
+
 public class Usuario {
 
-    private String nome, email, senha;
+    private String id, nome, email, senha;
 
     public Usuario() {
     }
@@ -11,6 +15,15 @@ public class Usuario {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+    }
+
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -29,6 +42,7 @@ public class Usuario {
         this.email = email;
     }
 
+    @Exclude
     public String getSenha() {
         return senha;
     }
@@ -36,4 +50,9 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+    public void salvar(){
+        FirebaseUtils.refUsuarios().child(this.id).setValue(this);
+    }
+
 }

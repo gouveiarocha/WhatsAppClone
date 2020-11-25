@@ -1,4 +1,4 @@
-package com.example.whatsappclone.config;
+package com.example.whatsappclone.helper;
 
 import android.util.Base64;
 

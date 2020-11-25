@@ -5,13 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.whatsappclone.R;
-import com.example.whatsappclone.config.FirebaseUtils;
+import com.example.whatsappclone.helper.FirebaseUtils;
 import com.example.whatsappclone.fragments.ContatosFragment;
 import com.example.whatsappclone.fragments.ConversasFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,7 +29,8 @@ public class PrincipalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
+        Toolbar toolbar = findViewById(R.id.toolbar_principal);
+        toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
 
         //Configurar abas
@@ -58,11 +60,12 @@ public class PrincipalActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.menuPesquisa:
+            case R.id.menu_pesquisa:
                 break;
-            case R.id.menuConfiguracoes:
+            case R.id.menu_config:
+                abrirConfiguracoes();
                 break;
-            case R.id.menuSair:
+            case R.id.menu_sair:
                 deslogarUsuario();
                 finish();
                 break;
@@ -76,6 +79,10 @@ public class PrincipalActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void abrirConfiguracoes(){
+        startActivity(new Intent(PrincipalActivity.this, ConfiguracoesActivity.class));
     }
 
 }

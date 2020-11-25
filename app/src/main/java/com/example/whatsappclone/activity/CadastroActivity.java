@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.whatsappclone.R;
-import com.example.whatsappclone.config.FirebaseUtils;
+import com.example.whatsappclone.helper.Base64Custom;
+import com.example.whatsappclone.helper.FirebaseUtils;
 import com.example.whatsappclone.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -16,7 +17,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
@@ -59,14 +59,25 @@ public class CadastroActivity extends AppCompatActivity {
         }
     }
 
-    public void cadastrarUsuario(Usuario usuario) {
+    public void cadastrarUsuario(final Usuario usuario) {
+
         auth = FirebaseUtils.getAuth();
+
         auth.createUserWithEmailAndPassword(usuario.getEmail(), usuario.getSenha()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+
                     Toast.makeText(CadastroActivity.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
                     finish();
+
+                    //Salvar no firebase.
+                    try {
+                        usuario.salvar();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
                 } else {
                     String excecao = "";
                     try {
