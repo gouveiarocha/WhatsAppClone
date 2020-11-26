@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/image_profile"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="20dp"
@@ -45,7 +45,7 @@
         android:paddingBottom="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image">
+        app:layout_constraintTop_toBottomOf="@+id/image_profile">
 
         <EditText
             android:id="@+id/editText"
@@ -74,5 +74,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+    <ImageButton
+        android:id="@+id/btn_profile_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/image_profile"
+        app:layout_constraintStart_toStartOf="@+id/image_profile"
+        app:srcCompat="@drawable/ic_photo_camera_cinza_24dp" />
+
+    <ImageButton
+        android:id="@+id/btn_profile_galeria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="TODO"
+        app:layout_constraintBottom_toBottomOf="@+id/image_profile"
+        app:layout_constraintEnd_toEndOf="@+id/image_profile"
+        app:srcCompat="@drawable/ic_photo_cinza_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

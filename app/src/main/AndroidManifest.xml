@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.whatsappclone">
 
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="true"
+        />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
 
