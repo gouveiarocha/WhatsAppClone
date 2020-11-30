@@ -69,6 +69,7 @@ public class CadastroActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
 
                     Toast.makeText(CadastroActivity.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
+                    FirebaseUtils.atualizarNomeUsuario(usuario.getNome());
                     finish();
 
                     //Salvar no firebase.
