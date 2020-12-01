@@ -22,21 +22,18 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.whatsappclone.R;
-import com.example.whatsappclone.helper.Base64Custom;
 import com.example.whatsappclone.helper.FirebaseUtils;
 import com.example.whatsappclone.helper.Permissao;
+import com.example.whatsappclone.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ConfiguracoesActivity extends AppCompatActivity {
 
@@ -46,28 +43,29 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     };
 
     private ImageView imageViewProfile;
+    private ImageView imgEditarNomeUsuario;
     private EditText editNomeUsuario;
     private ImageButton btnProfileCamera, btnProfileGaleria;
-
     private static final int SELECAO_CAMERA = 100, SELECAO_GALERIA = 200;
-
     private StorageReference storageReference;
-
     private String identificadorUsuario;
+    private Usuario usuarioLogado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracoes);
 
+        //Configurações Iniciais
         storageReference = FirebaseUtils.getStorageReference();
         identificadorUsuario = FirebaseUtils.getIdUsuario();
+        usuarioLogado = FirebaseUtils.getDadosUsuarioLogado();
 
         //Validar permissoes
         Permissao.valiarPermissoes(permissoesNecessarias, this, 1);
 
         imageViewProfile = findViewById(R.id.image_profile);
-
+        imgEditarNomeUsuario = findViewById(R.id.img_editar_nome);
         btnProfileCamera = findViewById(R.id.btn_profile_camera);
         btnProfileGaleria = findViewById(R.id.btn_profile_galeria);
         editNomeUsuario = findViewById(R.id.etxt_nome_usuario);
@@ -80,7 +78,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Recuperar dados do Usuario
-        FirebaseUser usuario = FirebaseUtils.getUsuarioAtual();
+        final FirebaseUser usuario = FirebaseUtils.getUsuarioAtual();
         Uri url = usuario.getPhotoUrl();
         if (url != null){
             Glide.with(ConfiguracoesActivity.this)
@@ -115,6 +113,23 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                     startActivityForResult(intent, SELECAO_GALERIA);
                 }
 
+            }
+        });
+        
+        imgEditarNomeUsuario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+                String nome = editNomeUsuario.getText().toString();
+                boolean retorno = FirebaseUtils.atualizarNomeUsuario(nome);
+                if (retorno) {
+
+                    usuarioLogado.setNome(nome);
+                    usuarioLogado.atualizar();
+
+                    Toast.makeText(ConfiguracoesActivity.this, "Nome alterado com sucesso...", Toast.LENGTH_SHORT).show();
+                }
+                
             }
         });
 
@@ -187,7 +202,13 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     }
 
     public void atualizaFotoUsuario(Uri url) {
-        FirebaseUtils.atualizarFotoUsuario(url);
+        boolean retorno = FirebaseUtils.atualizarFotoUsuario(url);
+        if (retorno){
+            usuarioLogado.setFoto(url.toString());
+            usuarioLogado.atualizar();
+            Toast.makeText(this, "Sua Foto foi alterada...", Toast.LENGTH_SHORT).show();
+        }
+        
     }
 
     @Override
