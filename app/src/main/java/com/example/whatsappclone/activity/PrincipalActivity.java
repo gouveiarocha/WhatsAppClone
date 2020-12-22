@@ -20,6 +20,9 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PrincipalActivity extends AppCompatActivity {
 
     private FirebaseAuth auth = FirebaseUtils.getAuth();

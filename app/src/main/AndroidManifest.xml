@@ -5,11 +5,10 @@
 
     <uses-feature
         android:name="android.hardware.camera2"
-        android:required="true"
-        />
+        android:required="true" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -18,24 +17,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity
+            android:name=".activity.ChatActivity"
+            android:label="@string/title_activity_chat"
+            android:parentActivityName=".activity.PrincipalActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.whatsappclone.activity.PrincipalActivity" />
+        </activity>
         <activity
             android:name=".activity.ConfiguracoesActivity"
             android:parentActivityName=".activity.PrincipalActivity" />
-
         <activity android:name=".activity.PrincipalActivity" />
-
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".activity.MainActivity" />
-
         <activity android:name=".activity.CadastroActivity" />
-
     </application>
 
 </manifest>
