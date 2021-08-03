@@ -38,7 +38,6 @@ public class ContatosFragment extends Fragment {
     private ValueEventListener valueEventListener;
     private FirebaseUser usuarioAtual;
 
-
     public ContatosFragment() {
         // Required empty public constructor
     }

@@ -5,5 +5,6 @@
     <color name="colorAccent">#0A5C6D</color>
     <color name="white">#FFFFFF</color>
     <color name="cinza_claro">#EEEEEE</color>
+    <color name="balao_remetente">#DBF9C4</color>
 
 </resources>
