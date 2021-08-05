@@ -81,6 +81,12 @@ public class FirebaseUtils {
         return database.getReference("mensagens");
     }
 
+    //Retorna a referencia para o nó Conversas.
+    public static DatabaseReference refConversas(){
+        database = FirebaseUtils.getDatabase();
+        return database.getReference("conversas");
+    }
+
     /**
      * Ret. Dados...
      */
