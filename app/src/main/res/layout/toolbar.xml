@@ -11,4 +11,9 @@
         android:background="@color/colorPrimary"
         android:theme="@style/Toolbar" />
 
+    <com.miguelcatalan.materialsearchview.MaterialSearchView
+        android:id="@+id/materialSeachPrincipal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </FrameLayout>
