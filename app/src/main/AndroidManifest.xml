@@ -18,6 +18,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".activity.GrupoActivity"
+            android:label="@string/title_activity_grupo"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".activity.ChatActivity"
             android:label="@string/title_activity_chat"
             android:parentActivityName=".activity.PrincipalActivity"

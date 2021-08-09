@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 
 import com.example.whatsappclone.R;
 import com.example.whatsappclone.activity.ChatActivity;
+import com.example.whatsappclone.activity.GrupoActivity;
 import com.example.whatsappclone.adapter.ContatosAdapter;
 import com.example.whatsappclone.helper.FirebaseUtils;
 import com.example.whatsappclone.helper.RecyclerItemClickListener;
@@ -69,9 +70,16 @@ public class ContatosFragment extends Fragment {
                     @Override
                     public void onItemClick(View view, int position) {
                         Usuario usuarioSelecionado = listaContatos.get(position);
-                        Intent intent = new Intent(getActivity(), ChatActivity.class);
-                        intent.putExtra("chatContato", usuarioSelecionado);
-                        startActivity(intent);
+                        if(usuarioSelecionado.getEmail().isEmpty()){
+                            //Cabeçalho
+                            startActivity(new Intent(getActivity(), GrupoActivity.class));
+                        }else{
+                            //Usuario
+                            Intent intent = new Intent(getActivity(), ChatActivity.class);
+                            intent.putExtra("chatContato", usuarioSelecionado);
+                            startActivity(intent);
+                        }
+
                     }
 
                     @Override
@@ -108,6 +116,13 @@ public class ContatosFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaContatos.clear();
+
+                //Usuário criado apra exibir como cabeçalho 'Novo Grupo'.
+                Usuario itemGrupo = new Usuario();
+                itemGrupo.setNome("Novo Grupo");
+                itemGrupo.setEmail("");
+                listaContatos.add(itemGrupo);
+
                 for (DataSnapshot dados : dataSnapshot.getChildren()) {
 
                     Usuario usuario = dados.getValue(Usuario.class);
