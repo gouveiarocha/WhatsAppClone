@@ -8,6 +8,7 @@ import com.example.whatsappclone.adapter.GrupoSelecionadoAdapter;
 import com.example.whatsappclone.helper.FirebaseUtils;
 import com.example.whatsappclone.helper.RecyclerItemClickListener;
 import com.example.whatsappclone.model.Usuario;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class GrupoActivity extends AppCompatActivity {
     private List<Usuario> listaMembrosSelecionados = new ArrayList<>();
     private ValueEventListener valueEventListenerMembros;
     private Toolbar toolbar;
+    private FloatingActionButton fabAvancarCadastro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +53,12 @@ public class GrupoActivity extends AppCompatActivity {
         toolbar.setTitle("Novo Grupo");
         setSupportActionBar(toolbar);
 
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Configs iniciais.
         recyclerMembrosSelecionados = findViewById(R.id.recyclerMembrosSelecionados);
         recyclerMembros = findViewById(R.id.recyclerMembros);
+        fabAvancarCadastro = findViewById(R.id.fabAvancarCadastro);
 
         //Configurar adapter Lista Membros
         contatosAdapter = new ContatosAdapter(listaMembros, getApplicationContext());
@@ -152,6 +148,16 @@ public class GrupoActivity extends AppCompatActivity {
                 }
                 )
         );
+
+        //COnfigurar float action buton
+        fabAvancarCadastro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), CadastroGrupoActivity.class);
+                i.putExtra("membros", (Serializable) listaMembrosSelecionados);
+                startActivity(i);
+            }
+        });
 
     }
 
