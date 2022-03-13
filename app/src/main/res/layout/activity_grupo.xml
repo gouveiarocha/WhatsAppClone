@@ -30,6 +30,6 @@
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal"
-        app:srcCompat="@drawable/ic_action_action_search" />
+        app:srcCompat="@drawable/ic_seta_proximo_branca_24dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
