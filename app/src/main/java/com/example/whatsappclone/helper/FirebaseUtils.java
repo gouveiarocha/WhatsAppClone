@@ -87,6 +87,12 @@ public class FirebaseUtils {
         return database.getReference("conversas");
     }
 
+    //Retorna a referencia para o nó Grupos.
+    public static DatabaseReference refGrupos(){
+        database = FirebaseUtils.getDatabase();
+        return database.getReference("grupos");
+    }
+
     /**
      * Ret. Dados...
      */
