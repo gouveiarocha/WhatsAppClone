@@ -4,7 +4,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.whatsappclone.R;
 import com.example.whatsappclone.adapter.GrupoSelecionadoAdapter;
 import com.example.whatsappclone.helper.FirebaseUtils;
 import com.example.whatsappclone.model.Grupo;
@@ -13,27 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.provider.MediaStore;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.whatsappclone.R;
-import com.google.firebase.database.DataSnapshot;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -51,9 +43,11 @@ public class CadastroGrupoActivity extends AppCompatActivity {
     private RecyclerView recyclerMembrosSelecionados;
     private CircleImageView imageGrupo;
     private Grupo grupo;
+    private FloatingActionButton fabSalvarGrupo;
 
     private static final int SELECAO_GALERIA = 200;
     private StorageReference storageReference;
+    private EditText editNomeGrupo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +61,9 @@ public class CadastroGrupoActivity extends AppCompatActivity {
         txtTotalParticipantes = findViewById(R.id.textTotalParticipantes);
         recyclerMembrosSelecionados = findViewById(R.id.recyclerMembrosGrupo);
         imageGrupo = findViewById(R.id.imageGrupo);
+        fabSalvarGrupo = findViewById(R.id.fabSalvarGrupo);
+        editNomeGrupo = findViewById(R.id.editNomeGrupo);
+
         grupo = new Grupo();
 
         storageReference = FirebaseUtils.getStorageReference();
@@ -78,14 +75,6 @@ public class CadastroGrupoActivity extends AppCompatActivity {
                 if (intent.resolveActivity(getPackageManager()) != null) { //aula 227 minuto 19.
                     startActivityForResult(intent, SELECAO_GALERIA);
                 }
-            }
-        });
-
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
 
@@ -109,6 +98,22 @@ public class CadastroGrupoActivity extends AppCompatActivity {
         recyclerMembrosSelecionados.setHasFixedSize(true);
         recyclerMembrosSelecionados.setAdapter(grupoSelecionadoAdapter);
 
+        fabSalvarGrupo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String nomeGrupo = editNomeGrupo.getText().toString();
+
+                // pega a lista de membros selecionado e adiciona o usuario logado
+                listaMembrosSelecionados.add(FirebaseUtils.getDadosUsuarioLogado());
+
+                grupo.setMembros(listaMembrosSelecionados);
+                grupo.setNome(nomeGrupo);
+                grupo.salvar();
+
+            }
+        });
+
     }
 
     @Override
@@ -119,7 +124,7 @@ public class CadastroGrupoActivity extends AppCompatActivity {
             try {
                 Uri localImagemSelecionada = data.getData();
                 imagem = MediaStore.Images.Media.getBitmap(getContentResolver(), localImagemSelecionada);
-                if (imagem != null){
+                if (imagem != null) {
 
                     imageGrupo.setImageBitmap(imagem);
 
