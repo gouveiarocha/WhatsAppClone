@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.whatsappclone.R;
 import com.example.whatsappclone.model.Conversa;
+import com.example.whatsappclone.model.Grupo;
 import com.example.whatsappclone.model.Usuario;
 
 import java.util.List;
@@ -42,14 +43,29 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.MyVi
         Conversa conversa = conversas.get(position);
         holder.ultimaMensagem.setText(conversa.getUltimaMensagem());
 
-        Usuario usuario = conversa.getUsuarioExibicao();
-        holder.nome.setText(usuario.getNome());
+        if(conversa.getIsGroup().equals("true")){
 
-        if (usuario.getFoto() != null){
-            Uri uri = Uri.parse(usuario.getFoto());
-            Glide.with(context).load(uri).into(holder.foto);
-        } else {
-            holder.foto.setImageResource(R.drawable.default_profile);
+            Grupo grupo = conversa.getGrupo();
+            holder.nome.setText(grupo.getNome());
+            if (grupo.getFoto() != null){
+                Uri uri = Uri.parse(grupo.getFoto());
+                Glide.with(context).load(uri).into(holder.foto);
+            } else {
+                holder.foto.setImageResource(R.drawable.default_profile);
+            }
+
+        }else{
+
+            Usuario usuario = conversa.getUsuarioExibicao();
+            holder.nome.setText(usuario.getNome());
+
+            if (usuario.getFoto() != null){
+                Uri uri = Uri.parse(usuario.getFoto());
+                Glide.with(context).load(uri).into(holder.foto);
+            } else {
+                holder.foto.setImageResource(R.drawable.default_profile);
+            }
+
         }
 
     }
