@@ -25,7 +25,7 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.MyVi
     private List<Conversa> conversas;
     private Context context;
 
-    public ConversasAdapter(List<Conversa> listaConversas, Context c){
+    public ConversasAdapter(List<Conversa> listaConversas, Context c) {
         this.conversas = listaConversas;
         this.context = c;
     }
@@ -43,27 +43,31 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.MyVi
         Conversa conversa = conversas.get(position);
         holder.ultimaMensagem.setText(conversa.getUltimaMensagem());
 
-        if(conversa.getIsGroup().equals("true")){
+        if (conversa.getIsGroup().equals("true")) {
 
             Grupo grupo = conversa.getGrupo();
             holder.nome.setText(grupo.getNome());
-            if (grupo.getFoto() != null){
+            if (grupo.getFoto() != null) {
                 Uri uri = Uri.parse(grupo.getFoto());
                 Glide.with(context).load(uri).into(holder.foto);
             } else {
                 holder.foto.setImageResource(R.drawable.default_profile);
             }
 
-        }else{
+        } else {
 
             Usuario usuario = conversa.getUsuarioExibicao();
-            holder.nome.setText(usuario.getNome());
+            if (usuario != null) {
 
-            if (usuario.getFoto() != null){
-                Uri uri = Uri.parse(usuario.getFoto());
-                Glide.with(context).load(uri).into(holder.foto);
-            } else {
-                holder.foto.setImageResource(R.drawable.default_profile);
+                holder.nome.setText(usuario.getNome());
+
+                if (usuario.getFoto() != null) {
+                    Uri uri = Uri.parse(usuario.getFoto());
+                    Glide.with(context).load(uri).into(holder.foto);
+                } else {
+                    holder.foto.setImageResource(R.drawable.default_profile);
+                }
+
             }
 
         }
@@ -89,7 +93,6 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.MyVi
 
         }
     }
-
 
 
 }
